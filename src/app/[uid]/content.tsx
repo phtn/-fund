@@ -15,6 +15,8 @@ import { HList, midbar_data } from "./midbar";
 import { Wallet } from "./wallet";
 import { QrViewer } from "./qrcode";
 import { useAuth } from "@/lib/auth/useAuth";
+import { type ClassName } from "../types";
+import { Button } from "@nextui-org/react";
 // import { useConvex } from "../ctx/convex";
 
 export const AcctContent = (props: { uid: string }) => {
@@ -103,15 +105,74 @@ const ListHeader = (props: { title?: string }) => (
 const Troves = memo(() => (
   <VList>
     <ListHeader title="Troves" />
+    <ProductList />
   </VList>
 ));
 Troves.displayName = "Troves";
 
-const Events = memo(() => <VList>Events</VList>);
+const Events = memo(() => (
+  <VList>
+    <ListHeader title="Events" />
+    <ProductList />
+  </VList>
+));
 Events.displayName = "Events";
 
-const Shop = memo(() => <VList>Shop</VList>);
+const Shop = memo(() => (
+  <VList>
+    <ListHeader title="Shop" />
+    <ProductList />
+  </VList>
+));
 Shop.displayName = "Shop";
 
-const Feed = memo(() => <VList>Feed</VList>);
+const Feed = memo(() => (
+  <VList>
+    <ListHeader title="Feed" />
+    <ProductList />
+  </VList>
+));
 Feed.displayName = "Feed";
+
+const ProductCard = (props: { className?: ClassName }) => (
+  <div
+    className={cn(
+      "flex h-[200px] w-full items-end justify-end rounded-xl p-4 text-gray-400",
+      props.className,
+    )}
+  >
+    <Button
+      variant="shadow"
+      size="lg"
+      className="flex w-fit items-center gap-6"
+    >
+      <p className="font-jet">$200</p>
+      <p className="font-inst font-semibold">Redeem</p>
+    </Button>
+  </div>
+);
+
+interface ProductData {
+  id: string | number;
+  className?: ClassName;
+}
+const products: ProductData[] = [
+  { id: 1, className: "bg-gray-100" },
+  { id: 2, className: "bg-gray-200" },
+  { id: 3, className: "bg-gray-300" },
+  { id: 4, className: "bg-gray-400" },
+  { id: 5, className: "bg-gray-500" },
+  { id: 6, className: "bg-gray-600" },
+  { id: 7, className: "bg-gray-700" },
+  { id: 8, className: "bg-gray-800" },
+  { id: 9, className: "bg-gray-900" },
+  { id: 10, className: "bg-gray-950" },
+];
+
+const ProductList = () => (
+  <div className="flex h-fit w-full flex-col gap-4 overflow-auto p-3">
+    {products.map((product) => (
+      <ProductCard key={product.id} className={product.className} />
+    ))}
+  </div>
+);
