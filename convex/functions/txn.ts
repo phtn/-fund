@@ -1,12 +1,12 @@
-import type { DataModel, Doc, Id } from "@vex/dataModel";
+import type { DataModel, Doc } from "@vex/dataModel";
 import { mutation } from "@vex/server";
 import { type GenericDatabaseWriter } from "convex/server";
 import { ConvexError, v } from "convex/values";
 
 export const transfer = mutation({
   args: {
-    from: v.id("account"),
-    to: v.id("account"),
+    from: v.string(),
+    to: v.string(),
     amount: v.number(),
   },
   handler: async ({ db }, { from, to, amount }) => {
@@ -30,11 +30,11 @@ export const transfer = mutation({
 
 const query = async <DB extends GenericDatabaseWriter<DataModel>>(
   db: DB,
-  holder: Id<"account">,
+  holder: string,
 ) =>
   await db
     .query("account")
-    .withIndex("by_id", (q) => q.eq("_id", holder))
+    .withIndex("by_uid", (q) => q.eq("uid", holder))
     .first();
 
 const credit = async <

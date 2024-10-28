@@ -24,6 +24,8 @@ const config = {
       fontFamily: {
         mono: ["var(--font-geist-mono)"],
         inter: ["var(--font-inter)"],
+        inst: ["var(--font-inst)"],
+        jet: ["var(--font-jet)"],
       },
       colors: {
         border: "hsl(var(--border))",

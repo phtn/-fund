@@ -3,37 +3,44 @@ import type { DataModel } from "@vex/dataModel";
 import { mutation } from "@vex/server";
 import type { GenericDatabaseWriter } from "convex/server";
 import { query } from "@vex/server";
+import { type Infer, v } from "convex/values";
+import { createWallet } from "./wallet";
 
-export const store = mutation({
-  args: {},
-  handler: async ({ auth, db }) => {
-    const identity = await auth.getUserIdentity();
-    if (!identity) {
-      throw new Error("Called storeUser without authentication present");
-    }
+export const UserSchema = v.object({
+  uid: v.string(),
+  email: v.string(),
+  name: v.string(),
+  phone_number: v.string(),
+  photo_url: v.string(),
+});
+export type NewUserArgs = Infer<typeof UserSchema>;
 
-    const user = await checkUser(db, identity.tokenIdentifier);
+export const create = mutation({
+  args: UserSchema,
+  handler: async ({ db }, { uid, name, email, photo_url, phone_number }) => {
+    const user = await checkUser(db, uid);
 
     if (user !== null) {
-      // If we've seen this identity before but the name has changed, patch the value.
-      if (user.name !== identity.name) {
-        await db.patch(user._id, { name: identity.name });
+      if (user.name !== name) {
+        await db.patch(user._id, { name });
       }
+      await db.patch(user._id, { updated_at: Date.now() });
       return user._id;
     }
-    // If it's a new identity, create a new `User`.
+
+    await createWallet(db, "tron", uid);
+
     return await db.insert("account", {
-      acct: generateAccountNumber(),
-      active: true,
+      account_number: generateAccountNumber(),
+      uid: uid,
+      name: name,
+      email: email,
+      phone_number: phone_number,
+      photo_url: photo_url,
       balance: 0,
-      email: identity.email!,
-      links: [],
-      name: identity.name ?? "Anonymous",
-      phone: identity.phoneNumber ?? "0000",
       updated_at: Date.now(),
+      active: true,
       verified: false,
-      wallets: [],
-      tokenIdentifier: identity.tokenIdentifier,
     });
   },
 });
@@ -44,12 +51,21 @@ export const get = query({
     return await ctx.db.query("account").collect();
   },
 });
+export const getByUid = query({
+  args: { uid: v.string() },
+  handler: async ({ db }, { uid }) => {
+    return await db
+      .query("account")
+      .withIndex("by_uid", (q) => q.eq("uid", uid))
+      .first();
+  },
+});
 
 const checkUser = async <DB extends GenericDatabaseWriter<DataModel>>(
   db: DB,
-  tokenIdentifier: string,
+  uid: string,
 ) =>
   await db
     .query("account")
-    .withIndex("by_token", (q) => q.eq("tokenIdentifier", tokenIdentifier))
+    .withIndex("by_uid", (q) => q.eq("uid", uid))
     .unique();

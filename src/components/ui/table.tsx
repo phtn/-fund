@@ -41,8 +41,8 @@ export default function CryptoList(props: { list: CryptoAsset[] | undefined }) {
               description={asset.name}
               name={cellValue.toString().toUpperCase()}
               classNames={{
-                wrapper: "bg-transparent -space-y-0.5",
-                name: "text-lg font-inter font-extrabold opacity-80",
+                wrapper: "-space-y-0.5",
+                name: "font-inter font-bold opacity-80",
                 description: "text-xs font-mono font-light opacity-60",
               }}
             >
@@ -58,16 +58,16 @@ export default function CryptoList(props: { list: CryptoAsset[] | undefined }) {
                 ) : (
                   <ChevronUpIcon className="size-3 text-teal-400/80" />
                 )}
-                <p className="text-lg text-sky-50/90">
+                <p className="text-[16px] text-gray-100/60">
                   {new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
                     currencyDisplay: "narrowSymbol",
-                    maximumFractionDigits: 2,
+                    maximumFractionDigits: setMinDecimals(asset.symbol),
                   }).format(asset.usd)}
                 </p>
               </div>
-              <p className="text-[10px] font-light opacity-40">
+              <p className="text-[10px] font-light opacity-50">
                 <span className="pr-[2px] font-inter">₱</span>
                 {new Intl.NumberFormat("en-US", {
                   currencyDisplay: "narrowSymbol",
@@ -86,13 +86,14 @@ export default function CryptoList(props: { list: CryptoAsset[] | undefined }) {
   return (
     <Table
       removeWrapper
-      aria-label="Example table with custom cells"
+      aria-label="Crypto assets from CoinMarketCap"
       classNames={{
-        thead: "bg-transparent rounded-[0px]",
-        th: "bg-transparent rounded-[0px]",
-        tbody: "text-indigo-50 font-bold text-lg",
-        wrapper: "bg-[#1e1e1e]",
-        emptyWrapper: "bg-[#1d1d1d]",
+        thead: "rounded-[0px]",
+        th: "rounded-[0px]",
+        tr: "hover:bg-gray-600",
+        tbody: "text-gray-100/70 font-bold text-lg",
+        wrapper: "bg-gray-950",
+        emptyWrapper: "bg-gray-950",
       }}
       radius="none"
       color="primary"
@@ -125,3 +126,16 @@ export default function CryptoList(props: { list: CryptoAsset[] | undefined }) {
     </Table>
   );
 }
+
+const atomicAssets: string[] = [
+  "pepe",
+  "bonk",
+  "btt",
+  "mog",
+  "xec",
+  "neiro",
+  "shib",
+];
+
+const setMinDecimals = (symbol: string) =>
+  atomicAssets.includes(symbol.toLowerCase()) ? 8 : 2;

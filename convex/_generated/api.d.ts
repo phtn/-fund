@@ -16,6 +16,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as account_user from "../account/user.js";
+import type * as account_wallet from "../account/wallet.js";
 import type * as functions_txn from "../functions/txn.js";
 
 /**
@@ -28,6 +29,7 @@ import type * as functions_txn from "../functions/txn.js";
  */
 declare const fullApi: ApiFromModules<{
   "account/user": typeof account_user;
+  "account/wallet": typeof account_wallet;
   "functions/txn": typeof functions_txn;
 }>;
 export declare const api: FilterApi<

@@ -9,11 +9,8 @@ export const env = createEnv({
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
     CONVEX_DEPLOYMENT: z.string(),
-    AUTH0_SECRET: z.string(),
-    AUTH0_BASE_URL: z.string().url(),
-    AUTH0_ISSUER_BASE_URL: z.string().url(),
-    AUTH0_CLIENT_SECRET: z.string(),
     COINMARKETCAP: z.string(),
+    TRON_API_KEY: z.string(),
   },
 
   /**
@@ -22,10 +19,15 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string(),
     NEXT_PUBLIC_CONVEX_URL: z.string().url(),
-    NEXT_PUBLIC_AUTH0_DOMAIN: z.string(),
-    NEXT_PUBLIC_AUTH0_CLIENT_ID: z.string(),
+
+    NEXT_PUBLIC_API_KEY: z.string(),
+    NEXT_PUBLIC_AUTH_DOMAIN: z.string(),
+    NEXT_PUBLIC_PROJECTID: z.string(),
+    NEXT_PUBLIC_STORAGE_BUCKET: z.string(),
+    NEXT_PUBLIC_MESSAGING_SENDERID: z.string(),
+    NEXT_PUBLIC_APPID: z.string(),
+    NEXT_PUBLIC_MEASUREMENTID: z.string(),
   },
 
   /**
@@ -34,22 +36,29 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+
+    // CONVEX
     CONVEX_DEPLOYMENT: process.env.CONVEX_DEPLOYMENT,
     NEXT_PUBLIC_CONVEX_URL: process.env.NEXT_PUBLIC_CONVEX_URL,
 
-    AUTH0_SECRET: process.env.AUTH0_SECRET,
-    AUTH0_BASE_URL: process.env.AUTH0_BASE_URL,
-    NEXT_PUBLIC_AUTH0_DOMAIN: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
-    NEXT_PUBLIC_AUTH0_CLIENT_ID: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID,
-    AUTH0_ISSUER_BASE_URL: process.env.AUTH0_ISSUER_BASE_URL,
-    AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
     COINMARKETCAP: process.env.COINMARKETCAP,
+    TRON_API_KEY: process.env.TRON_API_KEY,
+
+    // FIREBASE
+    NEXT_PUBLIC_API_KEY: process.env.NEXT_PUBLIC_API_KEY,
+    NEXT_PUBLIC_AUTH_DOMAIN: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+    NEXT_PUBLIC_PROJECTID: process.env.NEXT_PUBLIC_PROJECTID,
+    NEXT_PUBLIC_STORAGE_BUCKET: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+    NEXT_PUBLIC_MESSAGING_SENDERID: process.env.NEXT_PUBLIC_MESSAGING_SENDERID,
+    NEXT_PUBLIC_APPID: process.env.NEXT_PUBLIC_APPID,
+    NEXT_PUBLIC_MEASUREMENTID: process.env.NEXT_PUBLIC_MEASUREMENTID,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
    * useful for Docker builds.
    */
-  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+  // skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+  skipValidation: true,
   /**
    * Makes it so that empty strings are treated as undefined. `SOME_VAR: z.string()` and
    * `SOME_VAR=''` will throw an error.
