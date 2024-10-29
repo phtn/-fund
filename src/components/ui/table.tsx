@@ -42,8 +42,8 @@ export default function CryptoList(props: { list: CryptoAsset[] | undefined }) {
               name={cellValue.toString().toUpperCase()}
               classNames={{
                 wrapper: "-space-y-0.5",
-                name: "font-inter font-bold opacity-80",
-                description: "text-xs font-mono font-light opacity-60",
+                name: "font-inter font-bold opacity-85",
+                description: "text-xs font-mono font-light opacity-70",
               }}
             >
               {asset.name}
@@ -58,7 +58,7 @@ export default function CryptoList(props: { list: CryptoAsset[] | undefined }) {
                 ) : (
                   <ChevronUpIcon className="size-3 text-teal-400/80" />
                 )}
-                <p className="text-[16px] text-gray-100/60">
+                <p className="text-[16px] text-gray-100/70">
                   {new Intl.NumberFormat("en-US", {
                     style: "currency",
                     currency: "USD",
@@ -67,7 +67,7 @@ export default function CryptoList(props: { list: CryptoAsset[] | undefined }) {
                   }).format(asset.usd)}
                 </p>
               </div>
-              <p className="text-[10px] font-light opacity-50">
+              <p className="text-[10px] font-light opacity-70">
                 <span className="pr-[2px] font-inter">₱</span>
                 {new Intl.NumberFormat("en-US", {
                   currencyDisplay: "narrowSymbol",

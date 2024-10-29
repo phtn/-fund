@@ -47,13 +47,13 @@ export const useAuth = () => {
       return;
     }
     setUser(result.user);
-    setLoading(false);
     const id_token = await result.user?.getIdToken();
     if (id_token) {
       if (!account) {
         // console.log(result.user.displayName);
         await createUser(result.user);
       }
+      setLoading(false);
       router.push(`/${result.user?.uid}`);
     }
   }, [router, account, createUser]);

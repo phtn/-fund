@@ -14,8 +14,11 @@ import { ScanQrCode } from "lucide-react";
 import { generateAccountNumber, opts } from "@/utils/helpers";
 import { ScanCode } from "./scanner";
 
-export const QrCodegen = (props: { code: string | undefined }) => {
-  const linkURL = `receiver--${props.code}`;
+export const QrCodegen = (props: {
+  code: string | undefined;
+  amount: number;
+}) => {
+  const linkURL = `receiver--${props.amount}--${props.code}`;
   const [options] = useState<Options>({
     width: 256,
     height: 256,
@@ -98,30 +101,48 @@ interface QrViewerProps {
 }
 export const QrViewer = ({ id }: QrViewerProps) => {
   const [open, setOpen] = useState(false);
+  const [amount, setAmount] = useState(100);
 
   const id_set = id + "--" + generateAccountNumber();
 
   const QrOptions = useCallback(() => {
-    const options = opts(<ScanCode />, <QrCodegen code={id_set} />);
+    const options = opts(
+      <ScanCode />,
+      <QrCodegen code={id_set} amount={amount} />,
+    );
     return <>{options.get(open)}</>;
-  }, [id_set, open]);
+  }, [id_set, open, amount]);
 
   const handleOpen = () => setOpen(true);
+  const incrAmount = () => setAmount((prev) => prev + 100);
 
   return (
-    <div className="flex w-full flex-col items-center justify-center space-y-12 py-4">
+    <div className="flex w-full flex-col items-center justify-center pt-4">
       <div className="flex h-[256px] items-center justify-center rounded-xl bg-gray-200">
         <QrOptions />
       </div>
-      <Button
-        size="lg"
-        variant="shadow"
-        className="flex bg-gray-200 font-inter text-sm text-black"
-        onPress={handleOpen}
-      >
-        <p>Open QR code scanner</p>
-        <ScanQrCode className="size-6 stroke-1 text-gray-900" />
-      </Button>
+      <div className="flex h-12 items-center justify-center font-inter text-gray-200">
+        ₱{amount.toFixed(2)}
+      </div>
+      <div className="flex items-center gap-5">
+        <Button
+          size="md"
+          variant="shadow"
+          className="flex bg-gray-200 font-inter text-xs text-black"
+          onPress={incrAmount}
+        >
+          <p>Custom amount</p>
+        </Button>
+        <Button
+          size="md"
+          variant="shadow"
+          className="flex bg-gray-200 font-inter text-xs text-black"
+          onPress={handleOpen}
+        >
+          <p>Open scanner</p>
+          <ScanQrCode className="size-6 stroke-1 text-gray-900" />
+        </Button>
+      </div>
     </div>
   );
 };

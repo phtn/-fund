@@ -184,7 +184,7 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
     <canvas
       ref={canvasRef}
       // className={`pointer-events-none size-full bg-gradient-to-r from-sky-200/60 via-teal-300/40 to-teal-400/80 drop-shadow-lg transition-colors duration-300 ease-in ${className}`}
-      className={`duration-[10000s] pointer-events-none size-full transition-colors ease-in ${className}`}
+      className={`duration-[1000] pointer-events-none size-full transition-colors ease-in ${className}`}
       style={{
         width: width ?? "100%",
         height: height ?? "100%",

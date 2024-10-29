@@ -3,7 +3,6 @@ import {
   memo,
   type MemoExoticComponent,
   type PropsWithChildren,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -14,14 +13,12 @@ import { cn } from "@/lib/utils";
 import { HList, midbar_data } from "./midbar";
 import { Wallet } from "./wallet";
 import { QrViewer } from "./qrcode";
-import { useAuth } from "@/lib/auth/useAuth";
 import { type ClassName } from "../types";
 import { Button } from "@nextui-org/react";
 // import { useConvex } from "../ctx/convex";
 
 export const AcctContent = (props: { uid: string }) => {
   const { list } = useCryptoCtx();
-  const { signOut } = useAuth();
 
   const CryptoAssets = memo(() => <ListContent list={list} />);
   CryptoAssets.displayName = "CryptoAssets";
@@ -33,9 +30,7 @@ export const AcctContent = (props: { uid: string }) => {
     </VList>
   ));
   Qrcode.displayName = "Qrcode";
-  const [value, setValue] = useState<number>(723983);
   const [content, setContent] = useState<number | string>(0);
-  const [masked, setMasked] = useState<boolean | undefined>(undefined);
 
   const Contentcomp = useMemo(() => {
     const hlistcontent: MemoExoticComponent<
@@ -44,20 +39,6 @@ export const AcctContent = (props: { uid: string }) => {
 
     return hlistcontent[content as number] ?? null;
   }, [content, CryptoAssets, Qrcode]);
-
-  useEffect(() => {
-    if (content === 4) {
-      return setMasked(true);
-    }
-    setMasked(undefined);
-  }, [content]);
-
-  const incr = () => {
-    const earned = Math.floor(Math.random() * 30000);
-    setValue((prev) => prev + earned);
-  };
-
-  // const { transfer } = useConvex();
 
   return (
     <div
@@ -68,14 +49,7 @@ export const AcctContent = (props: { uid: string }) => {
         },
       )}
     >
-      <div className="h-[210px] w-full border-0 px-2 pt-3">
-        <Wallet
-          balance={value}
-          incr={incr}
-          withdraw={signOut}
-          masked={masked}
-        />
-      </div>
+      <Wallet />
       <HList>
         <HList.Wrap>
           <HList.Render
