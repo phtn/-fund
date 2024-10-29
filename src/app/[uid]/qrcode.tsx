@@ -1,17 +1,17 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import type {
-  Options,
-  DrawType,
-  TypeNumber,
-  Mode,
-  ErrorCorrectionLevel,
-  DotType,
-  CornerSquareType,
-} from "qr-code-styling";
-import QRCodeStyling from "qr-code-styling";
+import { generateAccountNumber, opts } from "@/utils/helpers";
 import { Button } from "@nextui-org/react";
 import { ScanQrCode } from "lucide-react";
-import { generateAccountNumber, opts } from "@/utils/helpers";
+import type {
+  CornerSquareType,
+  DotType,
+  DrawType,
+  ErrorCorrectionLevel,
+  Mode,
+  Options,
+  TypeNumber,
+} from "qr-code-styling";
+import QRCodeStyling from "qr-code-styling";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ScanCode } from "./scanner";
 
 export const QrCodegen = (props: {
