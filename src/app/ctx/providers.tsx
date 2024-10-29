@@ -4,6 +4,7 @@ import { type PropsWithChildren } from "react";
 import { Crypto } from "./crypto";
 import { Convex } from "./convex";
 import { AuthProvider } from "./auth";
+import { Toasts } from "./toast";
 
 export const Providers = ({ children }: PropsWithChildren) => (
   <Convex>
@@ -11,6 +12,7 @@ export const Providers = ({ children }: PropsWithChildren) => (
       <Crypto>
         <NextUI>{children}</NextUI>
       </Crypto>
+      <Toasts />
     </AuthProvider>
   </Convex>
 );
