@@ -45,18 +45,18 @@ const IconComponent = (props: IconComponentProps) => {
 
   return (
     <Button
-      variant={isActive ? "shadow" : "ghost"}
+      variant={isActive ? "shadow" : "flat"}
       className={cn(
-        "group w-fit border-0 duration-300 active:scale-[90%] md:hover:bg-gray-400",
-        { "bg-gray-300 text-gray-900": isActive },
+        "group w-fit border-0 bg-transparent transition-colors duration-500 ease-in-out active:scale-[90%] md:hover:bg-background",
+        { "text-forground bg-background/90 backdrop-blur-xl": isActive },
       )}
       onPress={handleSet(props.id)}
       isIconOnly
       size="sm"
     >
       <props.icon
-        className={cn("size-6 text-gray-300 md:group-hover:text-gray-900", {
-          "text-gray-900": isActive,
+        className={cn("size-6 text-background md:group-hover:text-foreground", {
+          "text-foreground": isActive,
         })}
       />
     </Button>

@@ -6,6 +6,7 @@ import { auth } from ".";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@vex/api";
 import { type NewUserArgs } from "convex/account/user";
+import { deleteUID, setUID } from "@/app/actions";
 
 export const useAuth = () => {
   const [error, setError] = useState<AuthError>();
@@ -52,18 +53,19 @@ export const useAuth = () => {
       if (!account) {
         // console.log(result.user.displayName);
         await createUser(result.user);
+        await setUID(result.user.uid);
       }
       setLoading(false);
-      router.push(`/${result.user?.uid}`);
+      router.push(`/dashboard`);
     }
   }, [router, account, createUser]);
 
   const signOut = useCallback(async () => {
     setLoading(true);
     await auth.signOut();
-    router.push("/");
+    await deleteUID();
     setLoading(false);
-  }, [router]);
+  }, []);
 
   return { signIn, signOut, user, loading, error };
 };

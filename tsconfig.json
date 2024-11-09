@@ -27,7 +27,16 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@vex/*": ["./convex/_generated/*"]
+      "@vex/*": ["./convex/_generated/*"],
+      "@actions": ["./src/app/actions"],
+      "@middleware": ["./src/app/middleware"],
+      "@components": ["./src/app/components"],
+      "@ctx": ["./src/app/ctx"],
+      "@hooks": ["./src/app/hooks"],
+      "@lib": ["./src/lib"],
+      "@styles": ["./src/styles"],
+      "@utils": ["./src/utils"],
+      "@schema": ["convex/schema"]
     }
   },
   "include": [

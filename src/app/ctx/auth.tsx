@@ -6,7 +6,6 @@ import { api } from "@vex/api";
 import { type Doc } from "@vex/dataModel";
 import { useQuery } from "convex/react";
 import { type AuthError, onAuthStateChanged, type User } from "firebase/auth";
-import { useRouter } from "next/navigation";
 import {
   createContext,
   useCallback,
@@ -33,7 +32,6 @@ const AuthCtx = createContext<AuthCtxValues | null>(null);
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<User | null>(null);
   const [account, setAccount] = useState<Doc<"account"> | null>(null);
-  const router = useRouter();
 
   const { signIn, signOut, loading, error } = useAuth();
 
@@ -50,13 +48,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const authState = useCallback(() => {
     onAuthStateChanged(auth, (current) => {
-      if (!current) {
-        router.push("/");
-        return;
-      }
       setUser(current);
     });
-  }, [router]);
+  }, []);
 
   useEffect(() => {
     authState();

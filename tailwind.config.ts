@@ -2,6 +2,14 @@ import type { Config } from "tailwindcss";
 import twa from "tailwindcss-animate";
 import { nextui } from "@nextui-org/react";
 
+// new theme
+// blue 59B5CA
+// orange F6C38E
+// dark 202221
+// light F6C38E
+// gray 898A8C
+// faded 2C2F2E
+
 const config = {
   darkMode: ["class"],
   content: [
@@ -89,7 +97,67 @@ const config = {
       },
     },
   },
-  plugins: [twa, nextui()],
+  plugins: [
+    twa,
+    nextui({
+      themes: {
+        light: {
+          colors: {
+            default: "#fafafa",
+            background: "#fafafa",
+            foreground: "#1B1F22",
+            primary: {
+              50: "#fafafa",
+              100: "#e1e2e2",
+              200: "#c8c9ca",
+              300: "#b0b1b2",
+              400: "#97999a",
+              500: "#7e8082",
+              600: "#65686a",
+              700: "#4d5052",
+              800: "#34373a",
+              900: "#1b1f22",
+              foreground: "#1B1F22",
+              DEFAULT: "#1B1F22",
+            },
+            secondary: {
+              100: "#FDFEFE",
+              200: "#FCFDFE",
+              300: "#FAFCFE",
+              400: "#F8FBFD",
+              500: "#F6F9FC",
+              600: "#B3C4D8",
+              700: "#7B92B5",
+              800: "#4E6692",
+              900: "#2F4578",
+              foreground: "#001744",
+              DEFAULT: "#CEE1F1",
+            },
+          },
+        },
+        dark: {
+          colors: {
+            background: "#1B1F22",
+            //#030712 #111827 #18181b #09090b #0a0a0a #171717 #0c0a09
+            foreground: "#fafafa",
+            primary: {
+              100: "#09090b",
+              200: "#18181b",
+              300: "#27272a",
+              400: "#3f3f46",
+              500: "#52525b",
+              600: "#71717a",
+              700: "#a1a1aa",
+              800: "#d4d4d8",
+              900: "#fafafa",
+              foreground: "#fafafa",
+              DEFAULT: "#fafafa",
+            },
+          },
+        },
+      },
+    }),
+  ],
 } satisfies Config;
 
 export default config;

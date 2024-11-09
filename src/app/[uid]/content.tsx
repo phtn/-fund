@@ -3,11 +3,12 @@ import {
   memo,
   type MemoExoticComponent,
   type PropsWithChildren,
+  type ReactNode,
+  type RefObject,
   useMemo,
   useState,
 } from "react";
 // import type { Doc } from "@vex/dataModel";
-import { ListContent } from "./comp";
 import { useCryptoCtx } from "../ctx/crypto";
 import { cn } from "@/lib/utils";
 import { HList, midbar_data } from "./midbar";
@@ -15,12 +16,14 @@ import { Wallet } from "./wallet";
 import { QrViewer } from "./qrcode";
 import { type ClassName } from "../types";
 import { Button } from "@nextui-org/react";
+import { Merchants } from "./components/merchants";
+import { motion } from "framer-motion";
 // import { useConvex } from "../ctx/convex";
 
 export const AcctContent = (props: { uid: string }) => {
   const { list } = useCryptoCtx();
 
-  const CryptoAssets = memo(() => <ListContent list={list} />);
+  const CryptoAssets = memo(() => <Merchants />);
   CryptoAssets.displayName = "CryptoAssets";
 
   const Qrcode = memo(() => (
@@ -43,7 +46,7 @@ export const AcctContent = (props: { uid: string }) => {
   return (
     <div
       className={cn(
-        "h-screen w-full min-w-[385px] border-0 bg-gray-950 sm:w-1/2 md:min-w-[420px] md:p-6 lg:w-1/3",
+        "h-fit w-full min-w-[385px] border-0 bg-primary-900 sm:w-1/2 md:min-w-[420px] md:p-6 lg:w-1/3",
         {
           "h-fit": !!list,
         },
@@ -59,16 +62,27 @@ export const AcctContent = (props: { uid: string }) => {
           />
         </HList.Wrap>
       </HList>
-      <div className="h-[calc(100vh-284px)] w-full overflow-auto scroll-smooth">
+      <div className="w-full overflow-auto scroll-smooth">
         {Contentcomp ? <Contentcomp /> : null}
       </div>
     </div>
   );
 };
 
-const VList = ({ children }: PropsWithChildren) => (
-  <div className="h-full w-full bg-gray-950 text-gray-400">{children}</div>
-);
+interface VListProps {
+  children: ReactNode;
+  containerRef?: RefObject<HTMLDivElement>;
+}
+const VList = ({ children, containerRef }: VListProps) => {
+  return (
+    <motion.div
+      ref={containerRef}
+      className="h-full w-full bg-primary-900 text-primary-400"
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 const ListHeader = (props: { title?: string }) => (
   <div className="flex h-[36px] w-full items-center px-4 text-xs text-zinc-300">

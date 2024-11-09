@@ -7,7 +7,7 @@ export const MainContent = () => {
   const { signIn, loading } = useAuth();
   const handleSignin = () => signIn();
   return (
-    <main className="flex h-screen w-screen flex-col items-center justify-center overflow-clip bg-gray-950 text-white">
+    <main className="flex h-screen w-screen flex-col items-center justify-center overflow-clip bg-background text-white">
       <Image
         isBlurred
         alt="logo"

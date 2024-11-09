@@ -1,18 +1,23 @@
 import { NextUIProvider as NextUI } from "@nextui-org/react";
 import { type PropsWithChildren } from "react";
-// import { Auth0 } from "./auth0";
-import { Crypto } from "./crypto";
-import { Convex } from "./convex";
 import { AuthProvider } from "./auth";
+import { Convex } from "./convex";
+import { Crypto } from "./crypto";
 import { Toasts } from "./toast";
+import { Theme } from "./theme";
+import { ScrollProvider } from "./scroll";
 
 export const Providers = ({ children }: PropsWithChildren) => (
-  <Convex>
-    <AuthProvider>
-      <Crypto>
-        <NextUI>{children}</NextUI>
-      </Crypto>
-      <Toasts />
-    </AuthProvider>
-  </Convex>
+  <Theme>
+    <Convex>
+      <AuthProvider>
+        <Crypto>
+          <NextUI>
+            <ScrollProvider>{children}</ScrollProvider>
+          </NextUI>
+        </Crypto>
+        <Toasts />
+      </AuthProvider>
+    </Convex>
+  </Theme>
 );

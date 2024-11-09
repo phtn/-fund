@@ -20,5 +20,8 @@ export const useConvex = () => {
 
   const transfer = (to: string, amount: number) => sendFn({ from, to, amount });
 
-  return { transfer, account };
+  const generateLogoUrl = useMutation(api.account.merchant.generateLogoUrl);
+  const createMerchant = useMutation(api.account.merchant.create);
+
+  return { transfer, account, generateLogoUrl, createMerchant };
 };

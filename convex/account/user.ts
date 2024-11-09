@@ -41,6 +41,7 @@ export const create = mutation({
       updated_at: Date.now(),
       active: true,
       verified: false,
+      is_merchant: false,
     });
   },
 });

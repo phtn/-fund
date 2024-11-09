@@ -12,12 +12,59 @@ export default defineSchema({
     balance: v.float64(),
     active: v.boolean(),
     verified: v.boolean(),
+    favorite_merchants: v.optional(v.array(v.string())),
+    favorite_procducts: v.optional(v.array(v.string())),
+    favorite_events: v.optional(v.array(v.string())),
+    verification_method: v.optional(v.string()),
+    chat_rooms: v.optional(v.array(v.string())),
+    is_merchant: v.optional(v.boolean()),
     links: v.optional(v.array(v.string())),
     wallets: v.optional(v.array(v.string())),
     updated_at: v.float64(),
   })
     .index("by_uid", ["uid"])
     .index("by_account_number", ["account_number"]),
+
+  merchant: defineTable({
+    merchant_id: v.string(),
+    account_number: v.string(),
+    merchant_name: v.string(),
+    merchant_phone_number: v.optional(v.string()),
+    merchant_email: v.optional(v.string()),
+    merchant_logo_url: v.optional(v.string()),
+    merchant_logo_format: v.optional(v.string()),
+    year_opened: v.optional(v.number()),
+    merchant_reward_balance: v.number(),
+    merchant_premium_balance: v.number(),
+    total_reward_amount_issued: v.optional(v.number()),
+    total_reward_amount_claimed: v.optional(v.number()),
+    total_reward_count_issued: v.optional(v.number()),
+    total_reward_count_claimed: v.optional(v.number()),
+    merchant_rank: v.optional(v.number()),
+    category: v.optional(v.string()),
+    owner_name: v.optional(v.string()),
+    address_id: v.optional(v.string()),
+    troves: v.optional(v.array(v.string())),
+    products: v.optional(v.array(v.string())),
+    events: v.optional(v.array(v.string())),
+    c_granted: v.optional(v.array(v.string())),
+    c_redeemed: v.optional(v.array(v.string())),
+    c_replied: v.optional(v.array(v.string())),
+    uid: v.string(),
+    photo_url: v.optional(v.string()),
+    slogan: v.optional(v.string()),
+    mission_statement: v.optional(v.string()),
+    is_active: v.boolean(),
+    is_verified: v.boolean(),
+    chat_rooms: v.optional(v.array(v.string())),
+    verification_method: v.optional(v.string()),
+    tags: v.optional(v.array(v.string())),
+    description: v.optional(v.string()),
+    updated_at: v.float64(),
+  })
+    .index("by_merchant_id", ["merchant_id"])
+    .index("by_merchant_name", ["merchant_name"])
+    .index("by_uid", ["uid"]),
 
   wallet: defineTable({
     wallet_number: v.string(),
@@ -126,34 +173,58 @@ export default defineSchema({
     .index("by_title", ["title"])
     .index("by_uid", ["uid"]),
 
-  message: defineTable({
-    message_id: v.string(),
-    sender_uid: v.string(),
-    sender_name: v.string(),
-    receiver_uid: v.string(),
-    receiver_name: v.string(),
-    channel_id: v.string(),
-    channel_name: v.string(),
-    content: v.string(),
+  chats: defineTable({
+    chat_id: v.string(),
+    author_uid: v.string(),
+    author_name: v.string(),
+    room_id: v.string(),
+    body: v.string(),
+    is_read: v.boolean(),
     updated_at: v.float64(),
   })
-    .index("by_message_number", ["message_id"])
-    .index("by_sender_uid", ["sender_uid"])
-    .index("by_sender_name", ["sender_name"])
-    .index("by_receiver_uid", ["receiver_uid"])
-    .index("by_receiver_name", ["receiver_name"])
-    .index("by_channel_id", ["channel_id"])
-    .index("by_channel_name", ["channel_name"]),
+    .index("by_chat_id", ["chat_id"])
+    .index("by_author_uid", ["author_uid"])
+    .index("by_author_name", ["author_name"])
+    .index("by_room_id", ["room_id"]),
 
-  channel: defineTable({
-    channel_id: v.string(),
-    channel_name: v.string(),
-    photo_url: v.string(),
+  message_likes: defineTable({
+    chat_id: v.string(),
+    liker_uid: v.string(),
+    updated_at: v.float64(),
+  })
+    .index("by_chat_id", ["chat_id"])
+    .index("by_liker_uid", ["liker_uid"]),
+
+  rooms: defineTable({
+    room_id: v.string(),
+    room_name: v.optional(v.string()),
+    photo_url: v.optional(v.string()),
+    theme: v.optional(v.string()),
     owners: v.array(v.string()),
     updated_at: v.float64(),
   })
-    .index("by_channel_id", ["channel_id"])
-    .index("by_channel_name", ["channel_name"]),
+    .index("by_room_id", ["room_id"])
+    .index("by_room_name", ["room_name"]),
+
+  notifications: defineTable({
+    notification_id: v.string(),
+    notification_type: v.union(
+      v.literal("send"),
+      v.literal("receive"),
+      v.literal("redeem"),
+      v.literal("deposit"),
+      v.literal("withdraw"),
+    ),
+    from_id: v.string(),
+    from_name: v.string(),
+    to_uid: v.string(),
+    body: v.string(),
+    updated_at: v.float64(),
+  })
+    .index("by_notification_id", ["notification_id"])
+    .index("by_from_id", ["from_id"])
+    .index("by_from_name", ["from_name"])
+    .index("by_to_uid", ["to_uid"]),
 
   transaction: defineTable({
     transaction_id: v.string(),
